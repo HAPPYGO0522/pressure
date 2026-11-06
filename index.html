@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>你最近的壓力來自哪裡 測驗解析</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;800&family=Huninn&family=Noto+Sans+TC:wght@400;500&display=swap">
+<style>
+/* Layout: one phone-width column of letter cards with hard offset shadows; denim navy + brass, like a well-kept leather wallet */
+:root{
+  --bg:#E4E9EE; --card:#FBFCFD; --soft:#EDF1F5; --tile:#D9E1E9;
+  --ink:#18222D; --muted:#5A6673; --navy:#24405E; --brass:#9A6B25; --shadow:#18222D; --btn-ink:#FBFCFD;
+  --f-head:"Noto Serif TC","Songti TC",serif;
+  --f-round:"Huninn","Noto Sans TC","PingFang TC",sans-serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F151C; --card:#17202A; --soft:#1D2834; --tile:#22303E;
+  --ink:#E4E9EE; --muted:#97A4B1; --navy:#8DB3DA; --brass:#D9A85C; --shadow:#04070A; --btn-ink:#0F151C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F151C; --card:#17202A; --soft:#1D2834; --tile:#22303E;
+  --ink:#E4E9EE; --muted:#97A4B1; --navy:#8DB3DA; --brass:#D9A85C; --shadow:#04070A; --btn-ink:#0F151C; color-scheme:dark}
+
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.85}
+.wrap{max-width:560px;margin:0 auto;padding-block:28px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:24px}
+h1,h2,h3{font-family:var(--f-head);font-weight:800;margin:0;text-wrap:balance;line-height:1.4}
+p{margin:0}
+.pill{align-self:flex-start;font-family:var(--f-round);font-size:13px;letter-spacing:.06em;background:var(--navy);color:var(--btn-ink);padding:4px 14px;border-radius:999px}
+.card{background:var(--card);border:2px solid var(--shadow);border-radius:18px;box-shadow:5px 5px 0 var(--shadow)}
+.muted{color:var(--muted)}
+
+/* landing */
+.intro{display:flex;flex-direction:column;gap:12px;text-align:center;align-items:center}
+.intro .pill{align-self:center}
+.intro h1{font-size:clamp(24px,6.4vw,30px)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px 10px;background:var(--tile);border-radius:12px;border:2px solid transparent;cursor:pointer;color:var(--ink);font:inherit;text-decoration:none}
+.tile:hover,.tile:focus-visible{border-color:var(--navy);outline:none}
+.tile svg{width:100%;max-width:130px;aspect-ratio:1;height:auto}
+.tile b{font-family:var(--f-round);font-weight:400;font-size:14px}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{display:flex;align-items:center;gap:14px;padding:14px 16px;text-decoration:none;color:var(--ink);font-family:var(--f-round);font-size:16px}
+.opt:hover,.opt:focus-visible{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--shadow);outline:none}
+.letter{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--brass);font-family:var(--f-head);font-weight:800;border:1.5px solid var(--brass)}
+
+/* result */
+.res-head{display:flex;flex-direction:column;gap:10px}
+.res-head h1{font-size:clamp(23px,6vw,28px)}
+.res-head .chosen{font-size:13.5px;color:var(--muted)}
+.res-art{align-self:flex-end;width:84px;height:84px;margin-bottom:-14px;background:var(--tile);border-radius:50%;border:2px solid var(--shadow);display:grid;place-items:center}
+.res-art svg{width:66px;height:66px}
+.quote{padding:16px 18px;border-left:5px solid var(--navy);border-radius:10px 14px 14px 10px;font-family:var(--f-head);font-weight:600;font-size:17px;line-height:1.7}
+.letter-card{padding:22px 20px;display:flex;flex-direction:column;gap:22px}
+.sec{display:flex;flex-direction:column;gap:8px}
+.sec h3{font-family:var(--f-round);font-weight:400;font-size:14.5px;color:var(--brass);letter-spacing:.04em}
+.sec p+p{margin-top:6px}
+.steps{background:var(--soft);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:14px}
+.steps b{display:block;font-weight:500}
+.say{font-family:var(--f-head);font-weight:600;font-size:17px}
+
+/* community */
+.join{padding:22px 20px;display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-family:var(--f-round);font-size:13px;letter-spacing:.12em;color:var(--brass)}
+.join h2{font-size:24px}
+.btn{align-self:flex-start;display:inline-block;padding:11px 26px;border-radius:999px;background:var(--navy);color:var(--btn-ink);text-decoration:none;font-family:var(--f-round);font-size:16px;border:2px solid var(--shadow);box-shadow:3px 3px 0 var(--shadow)}
+.btn.off{background:var(--soft);color:var(--muted);box-shadow:none;cursor:default}
+.btn:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.code{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:2px dashed var(--brass);border-radius:14px;background:var(--soft);font-family:var(--f-round)}
+.code strong{color:var(--brass);font-weight:400;font-size:18px;letter-spacing:.06em}
+.copy{flex:none;font:inherit;font-size:14px;padding:6px 16px;border-radius:999px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer}
+
+/* others */
+.others{display:flex;flex-direction:column;gap:12px}
+.others h2{font-size:22px}
+details.card{padding:0;box-shadow:3px 3px 0 var(--shadow)}
+details summary{list-style:none;cursor:pointer;padding:13px 16px;font-family:var(--f-round);display:flex;gap:8px}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▸";color:var(--brass)}
+details[open] summary::before{content:"▾"}
+details .in{padding:0 16px 14px;display:flex;flex-direction:column;gap:8px}
+details .in a{color:var(--navy);font-size:14px}
+.pick-others{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.po{display:flex;flex-direction:column;gap:8px;padding:8px;text-decoration:none;color:var(--ink);box-shadow:3px 3px 0 var(--shadow)}
+.po-art{position:relative;display:block}
+.po-art svg{width:100%;height:auto;aspect-ratio:1;display:block}
+.po-art b{position:absolute;top:4px;left:4px;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:12px;border:2px solid #fff}
+.po-t{font-size:12.5px;line-height:1.5;font-family:var(--f-round);color:var(--muted)}
+.close{padding:22px 20px;display:flex;flex-direction:column;gap:10px}
+.close h2{font-size:21px}
+.sign{font-family:var(--f-round);color:var(--muted);text-align:right}
+footer{font-size:12px;color:var(--muted);line-height:1.7;text-align:center}
+.back{align-self:center;font-family:var(--f-round);color:var(--navy);font-size:14px}
+.tiles.pick .tile{position:relative;padding:10px}.tiles.pick .tile svg{max-width:none;width:100%}.tiles.pick .tile b{position:absolute;top:14px;left:14px;width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:15px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3)}</style>
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ill-a" viewBox="0 0 120 120">
+      <rect x="4" y="4" width="112" height="112" rx="14" fill="#2F3A52"/><rect x="4" y="96" width="112" height="20" fill="#3D4A66"/><g transform="rotate(0 40 108)"><rect x="32.410000000000004" y="98.76" width="5.94" height="6.6000000000000005" rx="1.98" fill="#5B6B86" stroke="#2B2320" stroke-width="2.2"/><ellipse cx="35.38" cy="107.01" rx="4.29" ry="2.3760000000000003" fill="#FFFFFF" stroke="#2B2320" stroke-width="2.2"/><rect x="41.65" y="98.76" width="5.94" height="6.6000000000000005" rx="1.98" fill="#5B6B86" stroke="#2B2320" stroke-width="2.2"/><ellipse cx="44.62" cy="107.01" rx="4.29" ry="2.3760000000000003" fill="#FFFFFF" stroke="#2B2320" stroke-width="2.2"/><path d="M30.759999999999998 100.08 Q29.439999999999998 85.55999999999999 40 84.24 Q50.56 85.55999999999999 49.24 100.08 Z" fill="#9FB7D9" stroke="#2B2320" stroke-width="2.4" stroke-linejoin="round"/><path d="M36.7 84.89999999999999 q5 5 10 0" fill="none" stroke="#FFFFFF" stroke-width="1.4520000000000002" stroke-linecap="round"/><circle cx="40" cy="67.08" r="16.5" fill="#FDE3D0" stroke="#2B2320" stroke-width="2.6"/><path d="M22.84 71.03999999999999 Q20.86 49.26 40 49.92 Q59.14 49.26 57.16 71.03999999999999 Q55.18 63.12 49.24 61.8 L46.6 65.76 L43.96 60.48 L40 64.44 L36.7 59.82 L32.74 65.1 L30.1 61.14 Q24.82 63.12 22.84 71.03999999999999 Z" fill="#3A2A24" stroke="#2B2320" stroke-width="2.4" stroke-linejoin="round"/><path d="M30.759999999999998 55.86 q6 -5 14 -5" fill="none" stroke="#FFFFFF" stroke-opacity=".45" stroke-width="1.584" stroke-linecap="round"/><path d="M41.32 50.58 q2 -9 9 -10 q-5 4 -5 10" fill="#3A2A24" stroke="#2B2320" stroke-width="2" stroke-linejoin="round"/><ellipse cx="30.1" cy="73.67999999999999" rx="3.3000000000000003" ry="2.112" fill="#F7A1AE" opacity=".8"/><ellipse cx="49.9" cy="73.67999999999999" rx="3.3000000000000003" ry="2.112" fill="#F7A1AE" opacity=".8"/><ellipse cx="34.06" cy="69.06" rx="3.036" ry="3.96" fill="#3A2A24"/><ellipse cx="34.06" cy="70.38" rx="1.98" ry="1.98" fill="#7A5A4A"/><circle cx="35.116" cy="67.476" r="1.254" fill="#fff"/><circle cx="33.004000000000005" cy="70.776" r="0.5940000000000001" fill="#fff"/><ellipse cx="45.94" cy="69.06" rx="3.036" ry="3.96" fill="#3A2A24"/><ellipse cx="45.94" cy="70.38" rx="1.98" ry="1.98" fill="#7A5A4A"/><circle cx="46.995999999999995" cy="67.476" r="1.254" fill="#fff"/><circle cx="44.884" cy="70.776" r="0.5940000000000001" fill="#fff"/><ellipse cx="40" cy="76.32" rx="1.584" ry="1.98" fill="#E86A6A" stroke="#2B2320" stroke-width="1.6"/><path d="M32.74 73.02 q-2 6 0 8 q2 -2 0 -8 Z" fill="#8FC8F0"/><path d="M31.42 88.19999999999999 L27.46 75.0" stroke="#2B2320" stroke-width="5.94" stroke-linecap="round"/><path d="M31.42 88.19999999999999 L27.46 75.0" stroke="#9FB7D9" stroke-width="3.3000000000000003" stroke-linecap="round"/><circle cx="27.46" cy="75.0" r="3.036" fill="#FDE3D0" stroke="#2B2320" stroke-width="2"/><path d="M48.58 88.19999999999999 L52.54 75.0" stroke="#2B2320" stroke-width="5.94" stroke-linecap="round"/><path d="M48.58 88.19999999999999 L52.54 75.0" stroke="#9FB7D9" stroke-width="3.3000000000000003" stroke-linecap="round"/><circle cx="52.54" cy="75.0" r="3.036" fill="#FDE3D0" stroke="#2B2320" stroke-width="2"/></g><circle cx="86" cy="62" r="18" fill="#fff" stroke="#2B2320" stroke-width="2.4"/><path d="M86 62 v-10 M86 62 l7 4" stroke="#2B2320" stroke-width="2.4" stroke-linecap="round"/><path d="M72 46 a9 9 0 0 1 12 -6 M100 46 a9 9 0 0 0 -12 -6" fill="#F7C948" stroke="#2B2320" stroke-width="2"/><g stroke="#F7C948" stroke-width="2.4" stroke-linecap="round"><path d="M64 40 l-5 -5"/><path d="M108 40 l5 -5"/><path d="M110 60 h6"/><path d="M62 60 h-5"/></g>
+    </symbol>
+    <symbol id="ill-b" viewBox="0 0 120 120">
+      <rect x="4" y="4" width="112" height="112" rx="14" fill="#E3E8F0"/><rect x="4" y="96" width="112" height="20" fill="#C9D2DC"/><g transform="rotate(0 42 108)"><rect x="34.410000000000004" y="98.76" width="5.94" height="6.6000000000000005" rx="1.98" fill="#5B6B86" stroke="#2B2320" stroke-width="2.2"/><ellipse cx="37.38" cy="107.01" rx="4.29" ry="2.3760000000000003" fill="#FFFFFF" stroke="#2B2320" stroke-width="2.2"/><rect x="43.65" y="98.76" width="5.94" height="6.6000000000000005" rx="1.98" fill="#5B6B86" stroke="#2B2320" stroke-width="2.2"/><ellipse cx="46.62" cy="107.01" rx="4.29" ry="2.3760000000000003" fill="#FFFFFF" stroke="#2B2320" stroke-width="2.2"/><path d="M32.76 100.08 Q31.439999999999998 85.55999999999999 42 84.24 Q52.56 85.55999999999999 51.24 100.08 Z" fill="#F6B26B" stroke="#2B2320" stroke-width="2.4" stroke-linejoin="round"/><path d="M38.7 84.89999999999999 q5 5 10 0" fill="none" stroke="#FFFFFF" stroke-width="1.4520000000000002" stroke-linecap="round"/><circle cx="42" cy="67.08" r="16.5" fill="#FDE3D0" stroke="#2B2320" stroke-width="2.6"/><path d="M24.84 71.03999999999999 Q22.86 49.26 42 49.92 Q61.14 49.26 59.16 71.03999999999999 Q57.18 63.12 51.24 61.8 L48.6 65.76 L45.96 60.48 L42 64.44 L38.7 59.82 L34.74 65.1 L32.1 61.14 Q26.82 63.12 24.84 71.03999999999999 Z" fill="#3A2A24" stroke="#2B2320" stroke-width="2.4" stroke-linejoin="round"/><path d="M32.76 55.86 q6 -5 14 -5" fill="none" stroke="#FFFFFF" stroke-opacity=".45" stroke-width="1.584" stroke-linecap="round"/><path d="M43.32 50.58 q2 -9 9 -10 q-5 4 -5 10" fill="#3A2A24" stroke="#2B2320" stroke-width="2" stroke-linejoin="round"/><ellipse cx="32.1" cy="73.67999999999999" rx="3.3000000000000003" ry="2.112" fill="#F7A1AE" opacity=".8"/><ellipse cx="51.9" cy="73.67999999999999" rx="3.3000000000000003" ry="2.112" fill="#F7A1AE" opacity=".8"/><ellipse cx="36.06" cy="69.06" rx="3.036" ry="3.96" fill="#3A2A24"/><ellipse cx="36.06" cy="70.38" rx="1.98" ry="1.98" fill="#7A5A4A"/><circle cx="37.116" cy="67.476" r="1.254" fill="#fff"/><circle cx="35.004000000000005" cy="70.776" r="0.5940000000000001" fill="#fff"/><ellipse cx="47.94" cy="69.06" rx="3.036" ry="3.96" fill="#3A2A24"/><ellipse cx="47.94" cy="70.38" rx="1.98" ry="1.98" fill="#7A5A4A"/><circle cx="48.995999999999995" cy="67.476" r="1.254" fill="#fff"/><circle cx="46.884" cy="70.776" r="0.5940000000000001" fill="#fff"/><ellipse cx="42" cy="76.32" rx="1.584" ry="1.98" fill="#E86A6A" stroke="#2B2320" stroke-width="1.6"/><path d="M33.42 88.19999999999999 L36.06 94.14" stroke="#2B2320" stroke-width="5.94" stroke-linecap="round"/><path d="M33.42 88.19999999999999 L36.06 94.14" stroke="#F6B26B" stroke-width="3.3000000000000003" stroke-linecap="round"/><circle cx="36.06" cy="94.14" r="3.036" fill="#FDE3D0" stroke="#2B2320" stroke-width="2"/><path d="M50.58 88.19999999999999 L47.94 94.14" stroke="#2B2320" stroke-width="5.94" stroke-linecap="round"/><path d="M50.58 88.19999999999999 L47.94 94.14" stroke="#F6B26B" stroke-width="3.3000000000000003" stroke-linecap="round"/><circle cx="47.94" cy="94.14" r="3.036" fill="#FDE3D0" stroke="#2B2320" stroke-width="2"/></g><rect x="36" y="86" width="12" height="16" rx="3" fill="#3A4A5E" stroke="#2B2320" stroke-width="1.8"/><rect x="66" y="20" width="44" height="26" rx="9" fill="#fff" stroke="#2B2320" stroke-width="2.2"/><path d="M74 46 l-4 8 l10 -8" fill="#fff" stroke="#2B2320" stroke-width="2" stroke-linejoin="round"/><g fill="#5E7A96"><circle cx="78" cy="33" r="2.6"/><circle cx="88" cy="33" r="2.6"/><circle cx="98" cy="33" r="2.6"/></g><rect x="92" y="10" width="24" height="14" rx="7" fill="#E8504A" stroke="#2B2320" stroke-width="1.6"/><text x="104" y="21" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" font-family="sans-serif">99+</text><rect x="70" y="58" width="34" height="18" rx="7" fill="#fff" stroke="#2B2320" stroke-width="2"/><g fill="#5E7A96"><circle cx="80" cy="67" r="2"/><circle cx="87" cy="67" r="2"/><circle cx="94" cy="67" r="2"/></g>
+    </symbol>
+    <symbol id="ill-c" viewBox="0 0 120 120">
+      <rect x="4" y="4" width="112" height="112" rx="14" fill="#FFF1D6"/><rect x="4" y="96" width="112" height="20" fill="#F3D9A4"/><g transform="rotate(0 38 108)"><rect x="30.410000000000004" y="98.76" width="5.94" height="6.6000000000000005" rx="1.98" fill="#5B6B86" stroke="#2B2320" stroke-width="2.2"/><ellipse cx="33.38" cy="107.01" rx="4.29" ry="2.3760000000000003" fill="#FFFFFF" stroke="#2B2320" stroke-width="2.2"/><rect x="39.65" y="98.76" width="5.94" height="6.6000000000000005" rx="1.98" fill="#5B6B86" stroke="#2B2320" stroke-width="2.2"/><ellipse cx="42.62" cy="107.01" rx="4.29" ry="2.3760000000000003" fill="#FFFFFF" stroke="#2B2320" stroke-width="2.2"/><path d="M28.759999999999998 100.08 Q27.439999999999998 85.55999999999999 38 84.24 Q48.56 85.55999999999999 47.24 100.08 Z" fill="#B9A3D9" stroke="#2B2320" stroke-width="2.4" stroke-linejoin="round"/><path d="M34.7 84.89999999999999 q5 5 10 0" fill="none" stroke="#FFFFFF" stroke-width="1.4520000000000002" stroke-linecap="round"/><path d="M29.42 88.19999999999999 L25.46 96.78" stroke="#2B2320" stroke-width="5.94" stroke-linecap="round"/><path d="M29.42 88.19999999999999 L25.46 96.78" stroke="#B9A3D9" stroke-width="3.3000000000000003" stroke-linecap="round"/><circle cx="25.46" cy="96.78" r="3.036" fill="#FDE3D0" stroke="#2B2320" stroke-width="2"/><path d="M46.58 88.19999999999999 L50.54 96.78" stroke="#2B2320" stroke-width="5.94" stroke-linecap="round"/><path d="M46.58 88.19999999999999 L50.54 96.78" stroke="#B9A3D9" stroke-width="3.3000000000000003" stroke-linecap="round"/><circle cx="50.54" cy="96.78" r="3.036" fill="#FDE3D0" stroke="#2B2320" stroke-width="2"/><circle cx="38" cy="67.08" r="16.5" fill="#FDE3D0" stroke="#2B2320" stroke-width="2.6"/><path d="M20.84 71.03999999999999 Q18.86 49.26 38 49.92 Q57.14 49.26 55.16 71.03999999999999 Q53.18 63.12 47.24 61.8 L44.6 65.76 L41.96 60.48 L38 64.44 L34.7 59.82 L30.74 65.1 L28.1 61.14 Q22.82 63.12 20.84 71.03999999999999 Z" fill="#3A2A24" stroke="#2B2320" stroke-width="2.4" stroke-linejoin="round"/><path d="M28.759999999999998 55.86 q6 -5 14 -5" fill="none" stroke="#FFFFFF" stroke-opacity=".45" stroke-width="1.584" stroke-linecap="round"/><path d="M39.32 50.58 q2 -9 9 -10 q-5 4 -5 10" fill="#3A2A24" stroke="#2B2320" stroke-width="2" stroke-linejoin="round"/><ellipse cx="28.1" cy="73.67999999999999" rx="3.3000000000000003" ry="2.112" fill="#F7A1AE" opacity=".8"/><ellipse cx="47.9" cy="73.67999999999999" rx="3.3000000000000003" ry="2.112" fill="#F7A1AE" opacity=".8"/><ellipse cx="32.06" cy="69.06" rx="3.036" ry="3.96" fill="#3A2A24"/><ellipse cx="32.06" cy="70.38" rx="1.98" ry="1.98" fill="#7A5A4A"/><circle cx="33.116" cy="67.476" r="1.254" fill="#fff"/><circle cx="31.004" cy="70.776" r="0.5940000000000001" fill="#fff"/><ellipse cx="43.94" cy="69.06" rx="3.036" ry="3.96" fill="#3A2A24"/><ellipse cx="43.94" cy="70.38" rx="1.98" ry="1.98" fill="#7A5A4A"/><circle cx="44.995999999999995" cy="67.476" r="1.254" fill="#fff"/><circle cx="42.884" cy="70.776" r="0.5940000000000001" fill="#fff"/><path d="M35.36 76.97999999999999 q4 -4 8 0" fill="none" stroke="#2B2320" stroke-width="2.2" stroke-linecap="round"/></g><path d="M66 22 h40 v62 l-5 -4 l-5 4 l-5 -4 l-5 4 l-5 -4 l-5 4 l-5 -4 l-5 4 Z" fill="#fff" stroke="#2B2320" stroke-width="2.4" stroke-linejoin="round"/><text x="86" y="40" font-size="12" font-weight="800" fill="#2B2320" text-anchor="middle" font-family="sans-serif">帳單</text><path d="M74 52 h24 M74 61 h24 M74 70 h14" stroke="#B7AFA4" stroke-width="3" stroke-linecap="round"/><circle cx="106" cy="22" r="9" fill="#E8504A" stroke="#2B2320" stroke-width="1.8"/><text x="106" y="27" font-size="13" font-weight="900" fill="#fff" text-anchor="middle" font-family="sans-serif">!</text><path d="M58 36 q3 5 0 8 q-3 -3 0 -8 Z" fill="#8FC8F0" stroke="#2B2320" stroke-width="1.4"/>
+    </symbol>
+    <symbol id="ill-d" viewBox="0 0 120 120">
+      <rect x="4" y="4" width="112" height="112" rx="14" fill="#DDF0E2"/><rect x="4" y="96" width="112" height="20" fill="#9CC9A8"/><g transform="rotate(0 36 108)"><rect x="28.41" y="98.76" width="5.94" height="6.6000000000000005" rx="1.98" fill="#5B6B86" stroke="#2B2320" stroke-width="2.2"/><ellipse cx="31.38" cy="107.01" rx="4.29" ry="2.3760000000000003" fill="#FFFFFF" stroke="#2B2320" stroke-width="2.2"/><rect x="37.65" y="98.76" width="5.94" height="6.6000000000000005" rx="1.98" fill="#5B6B86" stroke="#2B2320" stroke-width="2.2"/><ellipse cx="40.62" cy="107.01" rx="4.29" ry="2.3760000000000003" fill="#FFFFFF" stroke="#2B2320" stroke-width="2.2"/><path d="M26.759999999999998 100.08 Q25.439999999999998 85.55999999999999 36 84.24 Q46.56 85.55999999999999 45.24 100.08 Z" fill="#7FC8A9" stroke="#2B2320" stroke-width="2.4" stroke-linejoin="round"/><path d="M32.7 84.89999999999999 q5 5 10 0" fill="none" stroke="#FFFFFF" stroke-width="1.4520000000000002" stroke-linecap="round"/><path d="M27.42 88.19999999999999 L23.46 96.78" stroke="#2B2320" stroke-width="5.94" stroke-linecap="round"/><path d="M27.42 88.19999999999999 L23.46 96.78" stroke="#7FC8A9" stroke-width="3.3000000000000003" stroke-linecap="round"/><circle cx="23.46" cy="96.78" r="3.036" fill="#FDE3D0" stroke="#2B2320" stroke-width="2"/><path d="M44.58 88.19999999999999 L50.52 76.32" stroke="#2B2320" stroke-width="5.94" stroke-linecap="round"/><path d="M44.58 88.19999999999999 L50.52 76.32" stroke="#7FC8A9" stroke-width="3.3000000000000003" stroke-linecap="round"/><circle cx="50.52" cy="76.32" r="3.036" fill="#FDE3D0" stroke="#2B2320" stroke-width="2"/><circle cx="36" cy="67.08" r="16.5" fill="#FDE3D0" stroke="#2B2320" stroke-width="2.6"/><path d="M18.84 71.03999999999999 Q16.86 49.26 36 49.92 Q55.14 49.26 53.16 71.03999999999999 Q51.18 63.12 45.24 61.8 L42.6 65.76 L39.96 60.48 L36 64.44 L32.7 59.82 L28.74 65.1 L26.1 61.14 Q20.82 63.12 18.84 71.03999999999999 Z" fill="#3A2A24" stroke="#2B2320" stroke-width="2.4" stroke-linejoin="round"/><path d="M26.759999999999998 55.86 q6 -5 14 -5" fill="none" stroke="#FFFFFF" stroke-opacity=".45" stroke-width="1.584" stroke-linecap="round"/><path d="M37.32 50.58 q2 -9 9 -10 q-5 4 -5 10" fill="#3A2A24" stroke="#2B2320" stroke-width="2" stroke-linejoin="round"/><ellipse cx="26.1" cy="73.67999999999999" rx="3.3000000000000003" ry="2.112" fill="#F7A1AE" opacity=".8"/><ellipse cx="45.9" cy="73.67999999999999" rx="3.3000000000000003" ry="2.112" fill="#F7A1AE" opacity=".8"/><ellipse cx="30.06" cy="69.06" rx="3.036" ry="3.96" fill="#3A2A24"/><ellipse cx="30.06" cy="70.38" rx="1.98" ry="1.98" fill="#7A5A4A"/><circle cx="31.116" cy="67.476" r="1.254" fill="#fff"/><circle cx="29.003999999999998" cy="70.776" r="0.5940000000000001" fill="#fff"/><ellipse cx="41.94" cy="69.06" rx="3.036" ry="3.96" fill="#3A2A24"/><ellipse cx="41.94" cy="70.38" rx="1.98" ry="1.98" fill="#7A5A4A"/><circle cx="42.995999999999995" cy="67.476" r="1.254" fill="#fff"/><circle cx="40.884" cy="70.776" r="0.5940000000000001" fill="#fff"/><ellipse cx="36" cy="76.32" rx="1.584" ry="1.98" fill="#E86A6A" stroke="#2B2320" stroke-width="1.6"/></g><rect x="64" y="26" width="46" height="58" rx="6" fill="#fff" stroke="#2B2320" stroke-width="2.4"/><rect x="64" y="26" width="46" height="12" rx="4" fill="#E8504A" stroke="#2B2320" stroke-width="2.2"/><path d="M76 20 v10 M98 20 v10" stroke="#2B2320" stroke-width="3" stroke-linecap="round"/><rect x="70" y="44" width="7" height="7" rx="1.5" fill="#E8504A"/><rect x="79" y="44" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="88" y="44" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="97" y="44" width="7" height="7" rx="1.5" fill="#E8504A"/><rect x="70" y="53" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="79" y="53" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="88" y="53" width="7" height="7" rx="1.5" fill="#E8504A"/><rect x="97" y="53" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="70" y="62" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="79" y="62" width="7" height="7" rx="1.5" fill="#E8504A"/><rect x="88" y="62" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="97" y="62" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="70" y="71" width="7" height="7" rx="1.5" fill="#E8504A"/><rect x="79" y="71" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="88" y="71" width="7" height="7" rx="1.5" fill="#F7C948"/><rect x="97" y="71" width="7" height="7" rx="1.5" fill="#E8504A"/><g fill="#5E7A96" font-family="sans-serif" font-weight="700"><text x="12" y="30" font-size="14">!</text></g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <!-- landing -->
+  <section id="home" class="wrap-inner" style="display:flex;flex-direction:column;gap:22px">
+    <div class="intro">
+      <span class="pill">心理測驗 · 你最近的壓力來自哪裡</span>
+      <h1>直覺選一個<br>最讓你心累的畫面</h1>
+      <p class="muted">不用想，第一眼最讓你嘆氣的那一個就是。</p>
+    </div>
+    <div class="card tiles pick">
+      <a class="tile" href="#a"><svg><use href="#ill-a"/></svg><b>A</b></a>
+      <a class="tile" href="#b"><svg><use href="#ill-b"/></svg><b>B</b></a>
+      <a class="tile" href="#c"><svg><use href="#ill-c"/></svg><b>C</b></a>
+      <a class="tile" href="#d"><svg><use href="#ill-d"/></svg><b>D</b></a>
+    </div>
+  </section>
+
+  <!-- result -->
+  <section id="result" hidden style="display:flex;flex-direction:column;gap:22px">
+    <div class="res-head">
+      <span class="pill">給你的一封小短信</span>
+      <h1 id="r-title"></h1>
+      <p class="chosen" id="r-chosen"></p>
+    </div>
+    <div class="res-art"><svg><use id="r-art" href="#ill-a"/></svg></div>
+    <p class="card quote" id="r-quote"></p>
+    <article class="card letter-card" id="r-body"></article>
+
+    <section class="card join" id="join">
+      <span class="eyebrow">上班族的加密貨幣學習社群</span>
+      <h2>壓力少一點，從看清楚開始</h2>
+      <p>很多壓力，最後都會繞回錢：時間不夠拿錢換、人情要花錢、帳單看不清、責任需要底氣。把錢的事學懂，壓力就會少一點。不管你是哪一型，第一步都一樣。這裡有一群跟你一樣的上班族，一起從零開始學。</p>
+      <a class="btn" id="join-btn" href="#join" target="_blank" rel="noopener">加入社群 →</a>
+      <div class="code">
+        <span id="code-text">入群暗號「<strong id="code">喘口氣</strong>」，可以先領新手入門筆記</span>
+        <button class="copy" id="copy-btn" type="button">複製</button>
+      </div>
+    </section>
+
+    <section class="others">
+      <h2>也看看另外三種心情</h2>
+      <div id="r-others" class="others"></div>
+    </section>
+
+    <section class="card close">
+      <h2>你已經很努力了</h2>
+      <p>壓力來自哪裡，就從哪裡開始鬆一點。不用一次解決全部，先讓自己喘口氣就好。</p>
+      <p>今天，先替自己留一格空白吧。</p>
+      <p class="sign" id="sign"></p>
+    </section>
+    <a class="back" href="#home">← 回到題目</a>
+  </section>
+
+  <footer>加密貨幣價格波動很大，可能損失全部本金。本頁為心理測驗與學習分享，不構成任何投資建議。</footer>
+</div>
+
+<script>
+/* ===== 這裡改成你自己的資料（引號請用半形 " ） ===== */
+window.CONFIG = {
+  name: "[你的名字]",            // 發文者署名
+  joinUrl: "",                   // 社群連結，例如 https://line.me/ti/g2/xxxx
+  code: "喘口氣"                   // 入群暗號
+};
+/* ================================ */
+</script>
+<script>
+const CONFIG = Object.assign({ name: "", joinUrl: "", code: "" }, window.CONFIG || {});
+
+const R = {
+ "a": {
+  "title": "你被「時間」追著跑",
+  "chosen": "你選了 A｜響個不停的鬧鐘",
+  "quote": "你不是不夠快，是一直沒有停下來喘口氣。",
+  "secs": [
+   [
+    "你選的，其實是一種心情",
+    [
+     "一聽到鬧鐘，心就揪一下。每天睜開眼睛，就覺得已經落後了，有做不完的事在等你。",
+     "你很負責，總是把行程塞滿，想把每件事都做好。"
+    ]
+   ],
+   [
+    "這份心情，背後是什麼",
+    [
+     "你的壓力來自「時間永遠不夠」。不是你效率差，是你一直在替別人、替以後趕路，卻很少留時間給自己。"
+    ]
+   ],
+   [
+    "如果這些日常讓你有共鳴",
+    [
+     "常常按掉鬧鐘再賴五分鐘；週末醒來第一件事是想待辦事項；明明很累，躺下來腦袋還在轉。"
+    ]
+   ],
+   [
+    "在錢這件事上，可以怎麼練習",
+    [
+     "被時間追著跑的人，最容易用錢換時間：一直叫外送、搭計程車、買東西犒賞自己，月底才發現花很多。先別苛責自己，只要做一件事：設定發薪日自動轉存一筆，不用花時間想，錢就會慢慢存下來。存得越穩，你越敢放慢一點。"
+    ]
+   ]
+  ],
+  "steps": [
+   [
+    "每天留 15 分鐘什麼都不排",
+    "讓自己喘口氣。"
+   ],
+   [
+    "設定發薪日自動轉存",
+    "不用想，錢也在累積。"
+   ],
+   [
+    "睡前寫下明天最重要的一件事",
+    "其他的，明天再說。"
+   ]
+  ],
+  "ask": "如果一天多出兩個小時，你最想拿來做什麼？",
+  "say": "我可以慢一點，日子不會因此跑走。"
+ },
+ "b": {
+  "title": "你被「別人的需要」淹沒了",
+  "chosen": "你選了 B｜99+ 的未讀訊息",
+  "quote": "你很重要，但你不用隨時都在線上。",
+  "secs": [
+   [
+    "你選的，其實是一種心情",
+    [
+     "看到一堆未讀訊息，你就覺得喘不過氣。每一則都好像在等你回覆、等你幫忙、等你表態。",
+     "你很體貼，也很怕讓別人失望，所以總是第一時間回應。"
+    ]
+   ],
+   [
+    "這份心情，背後是什麼",
+    [
+     "你的壓力來自「人」。工作、家人、朋友，每個人都需要你一點點，加起來就把你填滿了。你很少有真正屬於自己的時間。"
+    ]
+   ],
+   [
+    "如果這些日常讓你有共鳴",
+    [
+     "放假還是會一直看群組；不好意思已讀太久；常常幫別人處理事情，自己的事反而延到最後。"
+    ]
+   ],
+   [
+    "在錢這件事上，可以怎麼練習",
+    [
+     "很照顧別人的你，錢也常常花在別人身上：人情、聚會、幫忙墊錢、借錢。給自己一條界線：每個月先抓一筆「人情預算」，超過就練習婉拒；借錢先想好「拿不回來也沒關係」的上限。顧好自己，才有力氣繼續照顧別人。"
+    ]
+   ]
+  ],
+  "steps": [
+   [
+    "每天關掉通知一小時",
+    "世界不會因此停下來。"
+   ],
+   [
+    "定一個每月人情預算",
+    "超過就練習說不。"
+   ],
+   [
+    "先回覆最重要的三則",
+    "其他的，晚一點也沒關係。"
+   ]
+  ],
+  "ask": "如果今天可以不回任何訊息，你會想做什麼？",
+  "say": "我可以晚一點回，也可以先照顧自己。"
+ },
+ "c": {
+  "title": "你被「錢」壓著喘不過氣",
+  "chosen": "你選了 C｜信用卡帳單",
+  "quote": "讓你焦慮的不是數字，是看不清楚的未來。",
+  "secs": [
+   [
+    "你選的，其實是一種心情",
+    [
+     "一看到帳單通知，心就往下沉。不一定是欠很多，而是那種「錢好像永遠不夠」的感覺，一直壓在心上。",
+     "你很認真在過日子，也很想讓自己和家人過好一點。"
+    ]
+   ],
+   [
+    "這份心情，背後是什麼",
+    [
+     "你的壓力來自「不確定」：這個月夠不夠、萬一出事怎麼辦、以後會不會更辛苦。越看不清楚，就越不敢看。"
+    ]
+   ],
+   [
+    "如果這些日常讓你有共鳴",
+    [
+     "帳單通知常常先不點開；月底會開始算還剩幾天；看到同齡的人買房買車，心裡會緊一下。"
+    ]
+   ],
+   [
+    "在錢這件事上，可以怎麼練習",
+    [
+     "先把錢「看清楚」：打開帳單，把每月固定支出寫下來，算出自己真正需要多少。如果有卡債，先還利率最高的、不要只繳最低。接著每個月固定存一筆，慢慢存出三到六個月的預備金。不要用借來的錢想一次翻身，也小心保證獲利的說法。看清楚了，心才會真的放下。"
+    ]
+   ]
+  ],
+  "steps": [
+   [
+    "打開最近一張帳單",
+    "只看，不用馬上處理。"
+   ],
+   [
+    "寫下每月固定支出",
+    "知道底線在哪裡。"
+   ],
+   [
+    "存下第一筆預備金",
+    "金額不重要，開始最重要。"
+   ]
+  ],
+  "ask": "如果錢的事情不用擔心了，你最想先放下哪一個煩惱？",
+  "say": "我看清楚我的錢，就不怕它。"
+ },
+ "d": {
+  "title": "你被「責任」塞滿了",
+  "chosen": "你選了 D｜排滿的行事曆",
+  "quote": "你扛了很多，也可以替自己留一格空白。",
+  "secs": [
+   [
+    "你選的，其實是一種心情",
+    [
+     "看到排得滿滿的行事曆，你就覺得累。每一格都是責任：工作的、家裡的、答應別人的。好像沒有一格是留給自己的。",
+     "你很可靠，大家都知道交給你就沒問題。"
+    ]
+   ],
+   [
+    "這份心情，背後是什麼",
+    [
+     "你的壓力來自「什麼都要扛」。你習慣當那個撐住大家的人，卻很少問自己：我還好嗎？"
+    ]
+   ],
+   [
+    "如果這些日常讓你有共鳴",
+    [
+     "連休假都排了一堆事；家裡有事第一個找你；很久沒有一個「什麼都不用做」的下午。"
+    ]
+   ],
+   [
+    "在錢這件事上，可以怎麼練習",
+    [
+     "什麼都扛的人，最需要的是「可以喘口氣的底氣」。先存一筆預備金，讓你需要時能放自己幾天假；家裡的開銷，試著跟家人一起規劃，不用一個人默默扛。也可以找一群一起學的人，把錢的事一點一點學懂，以後的責任就不會那麼重。"
+    ]
+   ]
+  ],
+  "steps": [
+   [
+    "這週在行事曆留一格空白",
+    "寫上「留給自己」。"
+   ],
+   [
+    "把一件事交給別人",
+    "不用每件都自己來。"
+   ],
+   [
+    "先存好自己的預備金",
+    "你穩了，才扛得久。"
+   ]
+  ],
+  "ask": "你上一次有一整天什麼都不用做，是什麼時候？",
+  "say": "我可以扛，也可以替自己留一格空白。"
+ }
+};
+const SHORT = {"a": "你被「時間」追著跑", "b": "你被「別人的需要」淹沒了", "c": "你被「錢」壓著喘不過氣", "d": "你被「責任」塞滿了"};
+const nums = ["①","②","③"];
+const $ = id => document.getElementById(id);
+const esc = s => s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+function render(k){
+  const r = R[k];
+  $("r-title").textContent = r.title;
+  $("r-chosen").textContent = r.chosen;
+  $("r-quote").textContent = r.quote;
+  $("r-art").setAttribute("href", "#ill-" + k);
+  let h = r.secs.map(([t, ps]) => `<div class="sec"><h3>${t}</h3>${ps.map(p => `<p>${esc(p)}</p>`).join("")}</div>`).join("");
+  h += `<div class="sec"><h3>今天就能開始的三件小事</h3><div class="steps">${r.steps.map((s,i)=>`<div><b>${nums[i]} ${s[0]}</b>${s[1]}</div>`).join("")}</div></div>`;
+  h += `<div class="sec"><h3>留一個問題給自己</h3><p>${r.ask}</p></div>`;
+  h += `<div class="sec"><h3>也送給自己這句話</h3><p class="say">「${r.say}」</p></div>`;
+  $("r-body").innerHTML = h;
+  const pick = !!document.querySelector(".tiles.pick");
+  $("r-others").classList.toggle("pick-others", pick);
+  $("r-others").innerHTML = Object.keys(R).filter(x => x !== k).map(x => pick
+    ? `<a class="card po" href="#${x}"><span class="po-art"><svg viewBox="0 0 120 120"><use href="#ill-${x}"/></svg><b>${x.toUpperCase()}</b></span><span class="po-t">${SHORT[x]}</span></a>`
+    : `<details class="card"><summary><b>${x.toUpperCase()}</b>｜${SHORT[x]}</summary><div class="in"><p class="muted">${R[x].quote}</p><a href="#${x}">看完整解析</a></div></details>`).join("");
+}
+function show(k){
+  if (k && k !== "home" && !(k in R)) return;
+  const isRes = k in R;
+  $("home").hidden = isRes;
+  $("result").hidden = !isRes;
+  if (isRes) render(k);
+  window.scrollTo(0, 0);
+}
+$("sign").textContent = CONFIG.name ? "— " + CONFIG.name : "";
+$("code").textContent = CONFIG.code;
+(function setupJoin(){
+  const btn = $("join-btn");
+  let url = String(CONFIG.joinUrl || "").trim();
+  if (url && !/^https?:\/\//i.test(url)) url = "https://" + url;
+  if (url) { btn.href = url; return; }
+  btn.removeAttribute("href"); btn.removeAttribute("target");
+  btn.setAttribute("aria-disabled", "true");
+  btn.classList.add("off");
+  btn.textContent = "社群連結準備中";
+})();
+function copyText(text){
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+  return new Promise((ok, fail) => {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
+    let done = false; try { done = document.execCommand("copy"); } catch (e) {}
+    ta.remove(); done ? ok() : fail();
+  });
+}
+$("copy-btn").addEventListener("click", () => {
+  const b = $("copy-btn");
+  copyText(CONFIG.code).then(() => {
+    b.textContent = "已複製"; setTimeout(() => b.textContent = "複製", 1500);
+  }).catch(() => {
+    getSelection().selectAllChildren($("code")); b.textContent = "請長按複製";
+  });
+});
+function route(){ show((location.hash || "").slice(1).toLowerCase()); }
+function go(k){
+  try { history.pushState(null, "", "#" + k); } catch (e) {}
+  show(k);
+}
+document.addEventListener("click", (e) => {
+  const a = e.target.closest && e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const k = a.getAttribute("href").slice(1).toLowerCase();
+  if (k !== "home" && !(k in R)) return;
+  e.preventDefault();
+  go(k);
+});
+window.addEventListener("hashchange", route);
+window.addEventListener("popstate", route);
+route();
+</script>
+</body>
+</html>
